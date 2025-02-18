@@ -1,0 +1,12 @@
+
+HISTOGRAM:
+
+(0-2): ‹‹‹‹
+(3-5): 
+(6-7): 
+(8-9): 
+
+1. Number of elements : 4
+2. Minimal digit: 0
+3. Maximal digit: 0
+4. Median: 0

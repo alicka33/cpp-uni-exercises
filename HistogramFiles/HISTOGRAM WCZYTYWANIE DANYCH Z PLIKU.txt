@@ -1,0 +1,127 @@
+HISTOGRAM WCZYTYWANIE DANYCH Z PLIKÓW
+
+- wczytywanie i wypisywanie przez iostreamy!!!!
+- wyświetlanie zapisanego wcześniej pliku z histogramem
+- wczytywanie danych z plików i zapisywanie do nich
+
+-przeciążenie operatorów (zrozumieć i przećwiczyć)
+- dodawnie i odejmowanie histogramów
+- własne operatory
+
+- własne iteratory
+
+
+przeciążenie operatorów z pliku main:
+///* Adds two histograms */
+//map<int, int> operator+(map<int, int> map1, map<int, int> map2)
+//{
+//    map<int, int> resultMap = map1;
+//    map<int, int> ::iterator it;
+//    for (it = map2.begin(); it != map2.end(); it++)
+//        resultMap[it->first] += it->second;
+//    return resultMap;
+//}
+//
+///* Subtracts two histograms */
+//map<int, int> operator-(map<int, int> map1, map<int, int> map2)
+//{
+//    map<int, int> resultMap = map1;
+//    map<int, int> ::iterator it;
+//    for (it = map2.begin(); it != map2.end(); it++)
+//    {
+//        if (resultMap[it->first] > 0)
+//            resultMap[it->first] -= it->second;
+//        if (resultMap[it->first] <= 0)
+//            resultMap.erase(it->first);
+//    }
+//    return resultMap;
+//}
+//
+///* Checks if histograms are equal */
+//bool operator==(map<int, int> map1, map<int, int> map2)
+//{
+//    if (map1.size() != map2.size())
+//        return false;
+//    map<int, int> ::iterator it;
+//    for (it = map1.begin(); it != map1.end(); it++)
+//        if (map1[it->first] != map2[it->first])
+//            return false;
+//    return true;
+//}
+//
+//
+///* Checks if histograms are similar - they have the same keys and all of the values: v1 = k* v2 */
+//bool operator*=(map<int, int> map1, map<int, int> map2)
+//{
+//    if (map1.size() != map2.size())
+//        return false;
+//
+//    vector<int> keys1 = GetKeys(map1);
+//    vector<int> keys2 = GetKeys(map2);
+//    for (int i = 0; i < keys1.size(); i++)
+//        if (keys1[i] != keys2[i])
+//            return false;
+//
+//    map<int, int> ::iterator it;
+//    map<float, int> scale;
+//    for (it = map1.begin(); it != map1.end(); it++)
+//        scale[map1[it->first] / map2[it->first]] = 1;
+//    if (scale.size() == 1)
+//        return true;
+//    return false;
+//}
+
+
+
+
+/* Realizes multiple diffrent operations on multiple histograms */
+Ranges Ranges::PerformOperations(map<string, Ranges> histogramsMap, vector<char> operations)
+{
+    Ranges resultRange = GetFirstRange(histogramsMap);
+    map<string, Ranges> ::iterator it;
+    bool ifFirst = true; 
+    for (int i = 0; i < operations.size(); i++)
+    {
+        for (it = histogramsMap.begin(); it != histogramsMap.end(); it++)\
+        {
+            if (ifFirst)
+                ifFirst = false;
+            else
+            {
+                switch (operations[i])
+                {
+                case '+': resultRange = resultRange + it->second; break;
+                case '-': resultRange = resultRange - it->second; break;
+                }
+            }
+        }
+    }
+    return resultRange;
+}
+
+bool Ranges::PerformCompareOperations(map<string, Ranges> histogramsMap, char operation)
+{
+    map<string, Ranges> ::iterator it;
+    Ranges resultRange = GetFirstRange(histogramsMap);
+    bool ifFirst = true;
+    bool result;
+    for (it = histogramsMap.begin(); it != histogramsMap.end(); it++)\
+    {
+        if (ifFirst)
+            ifFirst = false;
+        else
+        {
+            switch (operation)
+            {
+            case '=': result = resultRange == it->second; resultRange = it->second; if (result == false) return false; break;
+            case '*': result = resultRange *= it->second; resultRange = it->second; if (result == false) return false; break;
+            }
+        }
+    }
+    return true;
+}
+
+
+
+
+

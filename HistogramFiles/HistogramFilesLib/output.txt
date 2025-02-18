@@ -1,0 +1,9 @@
+
+HISTOGRAM:
+
+(0-9): Ü
+
+1. Number of elements : 1
+2. Minimal digit: 7
+3. Maximal digit: 7
+4. Median: 7
